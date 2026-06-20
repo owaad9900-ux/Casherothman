@@ -1,0 +1,29 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Check if the user is authenticated
+    function isAuth() {
+      return request.auth != null;
+    }
+
+    // Check if the user is the platform administrator
+    function isAdmin() {
+      return isAuth() && (
+        request.auth.token.email == "othmanwaadibrahim@gmail.com" || 
+        request.auth.token.email == "owaad9900@gmail.com"
+      );
+    }
+
+    // Global list of cafes
+    match /cafes/{cafeId} {
+      allow read: if isAuth();
+      allow write: if isAdmin();
+    }
+
+    // Deep nested cafe collections (inventory, orders, categories, etc.)
+    match /cafes/{cafeId}/{document=**} {
+      allow read, write: if isAdmin() || (isAuth() && request.auth.uid == cafeId);
+    }
+  }
+}

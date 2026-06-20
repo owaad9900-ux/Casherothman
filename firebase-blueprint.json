@@ -1,0 +1,142 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "An inventory product representing menu items",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "nameAr": { "type": "string" },
+        "nameEn": { "type": "string" },
+        "price": { "type": "number" },
+        "cost": { "type": "number" },
+        "quantity": { "type": "number" },
+        "minQuantity": { "type": "number" },
+        "category": { "type": "string" },
+        "barcode": { "type": "string" },
+        "image": { "type": "string" },
+        "isAvailable": { "type": "boolean" }
+      },
+      "required": ["id", "nameAr", "nameEn", "price", "cost", "quantity", "minQuantity", "category", "barcode", "isAvailable"]
+    },
+    "OrderItem": {
+      "title": "OrderItem",
+      "description": "Line item inside a sale purchase order",
+      "type": "object",
+      "properties": {
+        "product": { "$ref": "#/entities/Product" },
+        "quantity": { "type": "number" }
+      },
+      "required": ["product", "quantity"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "A cafe sales invoice transaction",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "invoiceNumber": { "type": "string" },
+        "subtotal": { "type": "number" },
+        "tax": { "type": "number" },
+        "total": { "type": "number" },
+        "amountPaid": { "type": "number" },
+        "changeAmount": { "type": "number" },
+        "paymentMethod": { "type": "string", "enum": ["cash", "card", "deferred", "wallet"] },
+        "date": { "type": "string", "format": "date-time" },
+        "cashierName": { "type": "string" },
+        "qrCodeUrl": { "type": "string" },
+        "offline": { "type": "boolean" },
+        "customerName": { "type": "string" },
+        "customerPhone": { "type": "string" }
+      },
+      "required": ["id", "invoiceNumber", "subtotal", "tax", "total", "amountPaid", "changeAmount", "paymentMethod", "date", "cashierName"]
+    },
+    "Customer": {
+      "title": "Customer",
+      "description": "A registered customer and loyalty profile",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "totalSpent": { "type": "number" },
+        "ordersCount": { "type": "number" },
+        "lastVisit": { "type": "string" }
+      },
+      "required": ["id", "name", "phone", "totalSpent", "ordersCount", "lastVisit"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "A dynamic menu group/section item",
+      "type": "object",
+      "properties": {
+        "key": { "type": "string" },
+        "labelAr": { "type": "string" },
+        "labelEn": { "type": "string" }
+      },
+      "required": ["key", "labelAr", "labelEn"]
+    },
+    "TableOrder": {
+      "title": "TableOrder",
+      "description": "An active dining or coffee table session status",
+      "type": "object",
+      "properties": {
+        "tableId": { "type": "string" },
+        "tableNameAr": { "type": "string" },
+        "tableNameEn": { "type": "string" },
+        "status": { "type": "string", "enum": ["idle", "occupied"] },
+        "updatedAt": { "type": "string" },
+        "occupiedSince": { "type": "string" }
+      },
+      "required": ["tableId", "tableNameAr", "tableNameEn", "status"]
+    },
+    "CafeSettings": {
+      "title": "CafeSettings",
+      "description": "Corporate POS localized parameters and preferences",
+      "type": "object",
+      "properties": {
+        "nameAr": { "type": "string" },
+        "nameEn": { "type": "string" },
+        "taxRate": { "type": "number" },
+        "currencyAr": { "type": "string" },
+        "currencyEn": { "type": "string" },
+        "receiptHeaderAr": { "type": "string" },
+        "receiptHeaderEn": { "type": "string" },
+        "receiptFooterAr": { "type": "string" },
+        "receiptFooterEn": { "type": "string" },
+        "primaryColor": { "type": "string" },
+        "accentColor": { "type": "string" },
+        "enableVat": { "type": "boolean" },
+        "enable2FA: ": { "type": "boolean" },
+        "twoFactorPin": { "type": "string" }
+      },
+      "required": ["nameAr", "nameEn", "taxRate", "currencyAr", "currencyEn", "primaryColor", "accentColor"]
+    }
+  },
+  "firestore": {
+    "/inventory/{productId}": {
+      "schema": "Product",
+      "description": "Store individual product stocks and prices"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Sales ledger of electronic cafe invoices"
+    },
+    "/customers/{customerId}": {
+      "schema": "Customer",
+      "description": "CRM list of registered active loyalty profiles"
+    },
+    "/categories/{categoryKey}": {
+      "schema": "Category",
+      "description": "Menu tabs / categorizations dynamic listing"
+    },
+    "/tables/{tableId}": {
+      "schema": "TableOrder",
+      "description": "Layout floor configuration state of active tables"
+    },
+    "/settings/{settingsId}": {
+      "schema": "CafeSettings",
+      "description": "Corporate localized POS configurations (usually document ID 'default')"
+    }
+  }
+}

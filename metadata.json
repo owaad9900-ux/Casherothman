@@ -1,0 +1,6 @@
+{
+  "name": "Smart Cafe POS & Cashier",
+  "description": "نظام كاشير مقاهي متكامل متطور مع إدارة المخزون، تقارير أرباح لحظية، فوتير الكترونية، وضع دون اتصال، وتحليلات ذكية بالذكاء الاصطناعي.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

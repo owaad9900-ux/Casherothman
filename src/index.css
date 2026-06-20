@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Cairo", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-brand-primary: var(--primary-color, #0f766e); /* Customizable brand color */
+}
+
+/* Custom scrollbars and sleek layout classes */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.3);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.5);
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #F9FAFB;
+}
+
+.dark body {
+  background-color: #0B0F19;
+}
+
+/* Print CSS for Receipts */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #receipt-print-area, #receipt-print-area *,
+  #table-receipt-print-area, #table-receipt-print-area * {
+    visibility: visible;
+  }
+  #receipt-print-area, #table-receipt-print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: var(--print-width, 80mm);
+    padding: 2mm 4mm;
+    background: white;
+    color: black;
+    font-size: var(--print-font-size, 12px);
+  }
+}
+
+/* Pulsing border animation for occupied tables > 45 minutes */
+@keyframes border-pulse {
+  0%, 100% {
+    border-color: #ef4444; /* red-500 */
+    box-shadow: 0 0 0 0px rgba(239, 68, 68, 0.4);
+  }
+  50% {
+    border-color: #f97316; /* orange-500 */
+    box-shadow: 0 0 0 6px rgba(239, 68, 68, 0.25);
+  }
+}
+
+.animate-border-pulse {
+  animation: border-pulse 2s infinite ease-in-out;
+  border-width: 2px !important;
+}
+
